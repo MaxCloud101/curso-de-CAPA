@@ -4,12 +4,9 @@ metadata:
   name: simple-app
 spec: 
   destination: 
-    server: "https://kubernetes.default.svc"
+    server: "https://kubernetes.default.svc"f
   project: default
   source: 
     path: examples/1-simple-app
     repoURL: "https://github.com/MaxCloud101/curso-de-CAPA-example.git"
     targetRevision: HEAD
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
