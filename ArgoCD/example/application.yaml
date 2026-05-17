@@ -9,7 +9,7 @@ spec:
   source: 
     path: examples/1-simple-app
     repoURL: "https://github.com/MaxCloud101/curso-de-CAPA-example.git"
-    targetRevision: master
+    targetRevision: HEAD
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
