@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-postgresql
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://cetic.github.io/helm-charts
+    chart: postgresql
+    targetRevision: 0.2.5
+
+    helm:
+      releaseName: my-postgresql
+
+      values: |
+        postgresql:
+          username: admin
+          password: password
+          database: appdb
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
