@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: nginx-kustomize
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/MaxCloud101/curso-de-kustomize.git
+    targetRevision: main
+    path: examples/project1.1/overlays/prod
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nginx
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
