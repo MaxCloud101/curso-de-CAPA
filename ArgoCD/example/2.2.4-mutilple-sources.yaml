@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgres-stack
+  namespace: argocd
+spec:
+  project: default
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+  sources:
+    - repoURL: https://cetic.github.io/helm-charts
+      chart: postgresql
+      targetRevision: 0.2.5
+      helm:
+        releaseName: my-postgresql
+        values: |
+          postgresql:
+            username: admin
+            password: password
+            database: appdb
+
+    - repoURL: https://helm.runix.net
+      chart: pgadmin4
+      targetRevision: 1.64.0
+      helm:
+        releaseName: pgadmin4
+        values: |
+          env:
+            email: chart@domain.com
+            password: admin
+          service:
+            type: ClusterIP
+            port: 80
+            targetPort: 80
+            portName: http
+
+# kubectl port-forward svc/pgadmin4 --address 0.0.0.0 80:80
