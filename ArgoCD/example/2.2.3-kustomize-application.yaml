@@ -12,6 +12,8 @@ spec:
     repoURL: https://github.com/MaxCloud101/curso-de-kustomize.git
     targetRevision: main
     path: examples/project1.1/overlays/prod
+    kustomize:
+      namePrefix: prod-
 
   destination:
     server: https://kubernetes.default.svc
