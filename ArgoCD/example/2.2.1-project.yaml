@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform-team
+  namespace: argocd
+spec:
+  description: Proyecto para aplicaciones del equipo de plataforma
+
+  sourceRepos:
+    - 'https://github.com/company/platform-apps.git'
+    - 'https://github.com/company/helm-charts.git'
+
+  destinations:
+    - namespace: production
+      server: https://kubernetes.default.svc
+
+    - namespace: staging
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+  orphanedResources:
+    warn: true
+
+  roles:
+    - name: developers
+      description: Acceso para desarrolladores
+
+      policies:
+        - p, proj:platform-team:developers, applications, get, platform-team/*, allow
+        - p, proj:platform-team:developers, applications, sync, platform-team/*, allow
+
+      groups:
+        - platform-developers
